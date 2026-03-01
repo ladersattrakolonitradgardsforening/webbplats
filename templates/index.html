@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lädersättra Koloniträdgårdsförening</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">
+        <img src="assets/logo.png" alt="Lädersättra Koloniträdgårdsförening logotyp">
+        <span>Lädersättra<br>Koloniträdgårdsförening</span>
+      </a>
+      <button class="hamburger" aria-label="Öppna meny">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Hem</a></li>
+        <li>
+          <a href="#">Information <span class="arrow">&#9660;</span></a>
+          <div class="dropdown">
+            <a href="medlemsavgifter.html">Medlemsavgifter</a>
+            <a href="ordningsregler.html">Ordningsregler</a>
+          </div>
+        </li>
+        <li>
+          <a href="#">Bli medlem <span class="arrow">&#9660;</span></a>
+          <div class="dropdown">
+            <a href="bli-medlem.html">Medlemsansökan</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>{{hero_title}}</h1>
+    <p>{{hero_subtitle}}</p>
+  </section>
+
+  <section class="home-intro">
+    {{about_content}}
+  </section>
+
+  <section class="features">
+    {{features}}
+  </section>
+
+  <section class="contact-bar">
+    <h2>Kontakt</h2>
+    <p>Kontaktperson: {{contact_name}}</p>
+    <p>Telefon: <a href="tel:{{contact_phone_link}}">{{contact_phone}}</a></p>
+    <p>E-post: <a href="mailto:{{contact_email}}">{{contact_email}}</a></p>
+    <p>Adress: {{contact_address}}</p>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>&copy; 2026 Lädersättra Koloniträdgårdsförening</p>
+      <p>Medlem i <a href="https://koloni.org" target="_blank" rel="noopener">Koloniträdgårdsförbundet</a></p>
+      <p><a href="https://www.facebook.com/groups/ladersattrakolonitradgardsforening/" target="_blank" rel="noopener" class="facebook-link"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Medlemsgrupp på Facebook</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
