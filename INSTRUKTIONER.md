@@ -151,9 +151,10 @@ Denna steg kräver att någon med dator kör ett kommando en gång:
 
 När du har gjort dina ändringar i Notion:
 
-1. Öppna bokmärket **"Publicera webbplatsen"** i webbläsaren
-   (eller gå till den URL du sparade i steg 6)
-2. Vänta 1–2 minuter
+1. Öppna denna länk i webbläsaren (spara den gärna som bokmärke!):
+   **https://api.vercel.com/v1/integrations/deploy/prj_vxH3gVHXD57YUHtulwcMdT9l5Lwb/dXmibDty8v**
+2. Du bör se ett kort meddelande med `"state":"PENDING"` – det betyder att det fungerade
+3. Vänta 1–2 minuter
 3. Gå till **https://ladersattrakolonitradgardsforening.se** och kontrollera att ändringarna syns
 
 ---
