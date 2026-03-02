@@ -10,80 +10,15 @@ Du behöver **inte** kunna programmera eller installera något program.
 
 ---
 
-## Steg 1: Skapa ett Notion-konto (engångssteg)
+## Konton och inloggningar
 
-1. Gå till **https://www.notion.so** och klicka "Sign up"
-2. Registrera dig med **ladersattra.koloni@gmail.com** (eller annat gemensamt konto)
-3. Välj "For personal use" (gratis)
-
----
-
-## Steg 2: Skapa en Notion-integration (engångssteg)
-
-1. Gå till **https://www.notion.so/my-integrations**
-2. Klicka **"New integration"**
-3. Ge den namnet **"Webbplats"**
-4. Välj rätt workspace
-5. Klicka **"Submit"**
-6. Kopiera **"Internal Integration Secret"** (en lång text som börjar med `ntn_`)
-   – spara den, du behöver den snart
-
----
-
-## Steg 3: Skapa en sida i Notion (engångssteg)
-
-1. I Notion, skapa en ny sida och kalla den **"Webbplats"**
-2. Klicka på **···** menyn (tre prickar) uppe till höger
-3. Klicka **"Connect to"** och välj integrationen **"Webbplats"**
-
----
-
-## Steg 4: Kör installationsskriptet (engångssteg)
-
-Denna steg kräver att någon med dator kör ett kommando en gång:
-
-1. Öppna terminalen/kommandotolken
-2. Gå till projektmappen:
-   ```
-   cd "c:\Users\jonka\Nya filer\Ladersattra-kolonitradgardsforening"
-   ```
-3. Kopiera sidans ID från sidans URL i Notion. Om adressen ser ut så här:
-   `https://www.notion.so/Webbplats-abc123def456...`
-   så är ID:t den långa texten efter sista bindestrecket (32 tecken).
-4. Kör:
-   ```
-   node setup-notion.js DIN_API_NYCKEL DIN_SID_ID
-   ```
-5. Skriptet skapar allt innehåll i Notion och skriver ut miljövariabler.
-   Kopiera alla rader som börjar med `NOTION_`.
-
----
-
-## Steg 5: Lägg till miljövariabler i Vercel (engångssteg)
-
-1. Gå till **https://vercel.com** och logga in med **ladersattra.koloni@gmail.com**
-2. Klicka på projektet **ladersattra-kolonitradgardsforening**
-3. Gå till **Settings** > **Environment Variables**
-4. Lägg till varje variabel från steg 4:
-   - `NOTION_API_KEY` = din API-nyckel
-   - `NOTION_STARTSIDA_ID` = ...
-   - `NOTION_FUNKTIONER_ID` = ...
-   - `NOTION_KONTAKT_ID` = ...
-   - `NOTION_AVGIFTER_ID` = ...
-   - `NOTION_REGLER_ID` = ...
-   - `NOTION_FORMULAR_ID` = ...
-5. Se till att alla variabler är markerade för **Production**
-
----
-
-## Steg 6: Skapa en "Publicera"-knapp (engångssteg)
-
-1. I Vercel, gå till **Settings** > **Git** > **Deploy Hooks**
-2. Skapa en ny hook:
-   - Namn: **Publicera**
-   - Branch: **main** (eller lämna tomt)
-3. Kopiera URL:en som skapas (ser ut som `https://api.vercel.com/v1/integrations/deploy/...`)
-4. Spara denna URL som ett bokmärke i webbläsaren med namnet **"Publicera webbplatsen"**
+| Tjänst | E-post | Lösenord |
+|--------|--------|----------|
+| **Notion** (innehållsredigering) | ladersattra.koloni@gmail.com | *(fråga ansvarig)* |
+| **Vercel** (webbhotell) | ladersattra.koloni@gmail.com | *(fråga ansvarig)* |
+| **GitHub** (koddatabas) | ladersattra.koloni@gmail.com | *(fråga ansvarig)* |
+| **Gmail** (e-post för formulär) | ladersattra.koloni@gmail.com | *(fråga ansvarig)* |
+| **One.com** (domännamn) | *(fråga ansvarig)* | *(fråga ansvarig)* |
 
 ---
 
@@ -152,10 +87,13 @@ Denna steg kräver att någon med dator kör ett kommando en gång:
 När du har gjort dina ändringar i Notion:
 
 1. Öppna bokmärket **"Publicera webbplatsen"** i webbläsaren
-   (den URL du sparade i steg 6 — dela INTE denna URL offentligt)
+   (den URL du sparade som bokmärke — dela INTE denna URL offentligt)
 2. Du bör se ett kort meddelande med `"state":"PENDING"` – det betyder att det fungerade
 3. Vänta 1–2 minuter
-3. Gå till **https://ladersattrakolonitradgardsforening.se** och kontrollera att ändringarna syns
+4. Gå till **https://ladersattrakolonitradgardsforening.se** och kontrollera att ändringarna syns
+
+> **Tips:** Spara publicera-länken som bokmärke i webbläsaren med namnet
+> **"Publicera webbplatsen"** så hittar du den enkelt.
 
 ---
 
@@ -164,17 +102,50 @@ När du har gjort dina ändringar i Notion:
 - **Ändra INTE** strukturen på databaserna (lägg inte till/ta bort kolumner)
 - **Ändra INTE** "FältID" i formulärdatabasen
 - Ändringar syns **inte** direkt – du måste klicka på "Publicera"-länken
+- Notion sparar automatiskt – du behöver inte trycka "Spara"
 - Om något går fel, kontakta den som satte upp webbplatsen
-- Inloggning till Vercel: **ladersattra.koloni@gmail.com**
+
+---
+
+## Vad kan och kan inte ändras?
+
+### Kan ändras via Notion:
+- All text på alla sidor
+- Kontaktuppgifter (namn, telefon, e-post, adress)
+- Medlemsavgifter (priser, betalningsinformation)
+- Ordningsregler
+- Funktionskorten på startsidan (ikon, titel, beskrivning)
+- Formulärfält i medlemsansökan
+
+### Kan INTE ändras via Notion:
+- Logotypen
+- Färger och design
+- Navigeringsmenyn (Hem, Information, Bli medlem)
+- Sidlayout och struktur
+- Facebook-länken i sidfoten
+
+---
+
+## Felsökning
+
+| Problem | Lösning |
+|---------|---------|
+| Ändringen syns inte på webbplatsen | Har du klickat på "Publicera"-länken? Vänta 1–2 minuter och ladda om sidan. |
+| Publicera-länken ger inget svar | Kontrollera din internetanslutning och försök igen. |
+| Texten ser konstig ut på webbplatsen | Kontrollera att du inte har ändrat databasstrukturen i Notion. |
+| Formulär skickas inte | Kontrollera att e-postadressen i FormSubmit är korrekt (ladersattra.koloni@gmail.com). |
 
 ---
 
 ## Teknisk information (för utvecklare)
 
-- Webbplatsen hostas på **Vercel** (vercel.com)
-- Domän: **ladersattrakolonitradgardsforening.se** (DNS via One.com)
-- Innehåll hämtas från **Notion API** vid byggtid
-- Formulär skickas via **FormSubmit.co** till ladersattra.koloni@gmail.com
-- Facebook-grupp: https://www.facebook.com/groups/ladersattrakolonitradgardsforening/
-- Bygge: `npm run build` kör `build.js` som genererar statisk HTML i `public/`
-- Setup: `node setup-notion.js <API_KEY> <PAGE_ID>` skapar Notion-strukturen
+- **Webbplats**: https://ladersattrakolonitradgardsforening.se
+- **GitHub-repo**: https://github.com/ladersattrakolonitradgardsforening/webbplats (publik)
+- **Hosting**: Vercel (vercel.com), projekt: **webbplats**
+- **Domän**: ladersattrakolonitradgardsforening.se (DNS via One.com)
+- **CMS**: Notion API – innehåll hämtas vid byggtid
+- **Formulär**: FormSubmit.co → ladersattra.koloni@gmail.com
+- **Facebook**: https://www.facebook.com/groups/ladersattrakolonitradgardsforening/
+- **Bygge**: `npm run build` kör `build.js` som genererar statisk HTML i `public/`
+- **Setup**: `node setup-notion.js <API_KEY> <PAGE_ID>` skapar Notion-strukturen
+- **Deploy hook**: Finns under Vercel > Settings > Git > Deploy Hooks (delas INTE i repot)
