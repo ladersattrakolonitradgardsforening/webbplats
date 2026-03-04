@@ -4,18 +4,25 @@ const path = require('path');
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
+function cleanNotionId(raw) {
+  if (!raw) return '';
+  const cleaned = raw.trim().replace(/['"]/g, '');
+  const match = cleaned.match(/([0-9a-f]{32}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i);
+  return match ? match[1] : cleaned;
+}
+
 const REQUIRED_IDS = {
-  startsida: process.env.NOTION_STARTSIDA_ID,
-  funktioner: process.env.NOTION_FUNKTIONER_ID,
-  kontakt: process.env.NOTION_KONTAKT_ID,
-  avgifter: process.env.NOTION_AVGIFTER_ID,
-  regler: process.env.NOTION_REGLER_ID,
-  formular: process.env.NOTION_FORMULAR_ID,
+  startsida: cleanNotionId(process.env.NOTION_STARTSIDA_ID),
+  funktioner: cleanNotionId(process.env.NOTION_FUNKTIONER_ID),
+  kontakt: cleanNotionId(process.env.NOTION_KONTAKT_ID),
+  avgifter: cleanNotionId(process.env.NOTION_AVGIFTER_ID),
+  regler: cleanNotionId(process.env.NOTION_REGLER_ID),
+  formular: cleanNotionId(process.env.NOTION_FORMULAR_ID),
 };
 
 const IDS = {
   ...REQUIRED_IDS,
-  stadgar: process.env.NOTION_STADGAR_ID,
+  stadgar: cleanNotionId(process.env.NOTION_STADGAR_ID),
 };
 
 const PUBLIC = path.join(__dirname, 'public');
@@ -332,16 +339,20 @@ async function build() {
   fs.mkdirSync(path.join(PUBLIC, 'assets'), { recursive: true });
 
   // Fetch all Notion content
-  const fetches = [
-    fetchStartsida(),
-    fetchFunktioner(),
-    fetchKontakt(),
-    fetchPageContent(IDS.avgifter, 'Medlemsavgifter'),
-    fetchPageContent(IDS.regler, 'Ordningsregler'),
-    IDS.stadgar ? fetchPageContent(IDS.stadgar, 'Stadgar') : Promise.resolve(null),
-    fetchFormular(),
-  ];
-  const [startsida, features, contact, avgifterHtml, reglerHtml, stadgarHtml, formFields] = await Promise.all(fetches);
+  const [startsida, features, contact, avgifterHtml, reglerHtml, stadgarHtml, formFields] = await Promise.all([
+    fetchStartsida().catch(e => { throw new Error(`Startsida (${IDS.startsida}): ${e.message}`); }),
+    fetchFunktioner().catch(e => { throw new Error(`Funktioner (${IDS.funktioner}): ${e.message}`); }),
+    fetchKontakt().catch(e => { throw new Error(`Kontakt (${IDS.kontakt}): ${e.message}`); }),
+    fetchPageContent(IDS.avgifter, 'Medlemsavgifter').catch(e => { throw new Error(`Medlemsavgifter (${IDS.avgifter}): ${e.message}`); }),
+    fetchPageContent(IDS.regler, 'Ordningsregler').catch(e => { throw new Error(`Ordningsregler (${IDS.regler}): ${e.message}`); }),
+    IDS.stadgar
+      ? fetchPageContent(IDS.stadgar, 'Stadgar').catch(e => {
+          console.warn(`  WARNING: Stadgar fetch failed (${IDS.stadgar}): ${e.message} – using static fallback`);
+          return null;
+        })
+      : Promise.resolve(null),
+    fetchFormular().catch(e => { throw new Error(`Formulär (${IDS.formular}): ${e.message}`); }),
+  ]);
 
   // Fetch form intro from the Formulär page body (first paragraphs before any database)
   // For simplicity, form intro comes from a dedicated "Formulär-intro" section
