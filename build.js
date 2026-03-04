@@ -4,14 +4,18 @@ const path = require('path');
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
-const IDS = {
+const REQUIRED_IDS = {
   startsida: process.env.NOTION_STARTSIDA_ID,
   funktioner: process.env.NOTION_FUNKTIONER_ID,
   kontakt: process.env.NOTION_KONTAKT_ID,
   avgifter: process.env.NOTION_AVGIFTER_ID,
   regler: process.env.NOTION_REGLER_ID,
-  stadgar: process.env.NOTION_STADGAR_ID,
   formular: process.env.NOTION_FORMULAR_ID,
+};
+
+const IDS = {
+  ...REQUIRED_IDS,
+  stadgar: process.env.NOTION_STADGAR_ID,
 };
 
 const PUBLIC = path.join(__dirname, 'public');
@@ -302,7 +306,7 @@ function copyRecursive(src, dest) {
 }
 
 async function build() {
-  const missing = Object.entries(IDS).filter(([, v]) => !v);
+  const missing = Object.entries(REQUIRED_IDS).filter(([, v]) => !v);
   if (!process.env.NOTION_API_KEY || missing.length) {
     console.log('Notion not configured – copying static fallback files...');
     if (fs.existsSync(PUBLIC)) fs.rmSync(PUBLIC, { recursive: true });
@@ -328,15 +332,16 @@ async function build() {
   fs.mkdirSync(path.join(PUBLIC, 'assets'), { recursive: true });
 
   // Fetch all Notion content
-  const [startsida, features, contact, avgifterHtml, reglerHtml, stadgarHtml, formFields] = await Promise.all([
+  const fetches = [
     fetchStartsida(),
     fetchFunktioner(),
     fetchKontakt(),
     fetchPageContent(IDS.avgifter, 'Medlemsavgifter'),
     fetchPageContent(IDS.regler, 'Ordningsregler'),
-    fetchPageContent(IDS.stadgar, 'Stadgar'),
+    IDS.stadgar ? fetchPageContent(IDS.stadgar, 'Stadgar') : Promise.resolve(null),
     fetchFormular(),
-  ]);
+  ];
+  const [startsida, features, contact, avgifterHtml, reglerHtml, stadgarHtml, formFields] = await Promise.all(fetches);
 
   // Fetch form intro from the Formulär page body (first paragraphs before any database)
   // For simplicity, form intro comes from a dedicated "Formulär-intro" section
@@ -367,8 +372,14 @@ async function build() {
   reglerPage = reglerPage.replace('{{regler_content}}', reglerHtml);
 
   // Stadgar page
-  let stadgarPage = fs.readFileSync(path.join(TEMPLATES, 'stadgar.html'), 'utf8');
-  stadgarPage = stadgarPage.replace('{{stadgar_content}}', stadgarHtml);
+  let stadgarPage;
+  if (stadgarHtml) {
+    stadgarPage = fs.readFileSync(path.join(TEMPLATES, 'stadgar.html'), 'utf8');
+    stadgarPage = stadgarPage.replace('{{stadgar_content}}', stadgarHtml);
+  } else {
+    console.log('  NOTION_STADGAR_ID not set – using static stadgar.html');
+    stadgarPage = fs.readFileSync(path.join(__dirname, 'stadgar.html'), 'utf8');
+  }
 
   // Bli-medlem page
   let formPage = fs.readFileSync(path.join(TEMPLATES, 'bli-medlem.html'), 'utf8');
