@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tack! – Lädersättra Koloniträdgårdsförening</title>
+  <title>Stadgar – Lädersättra Koloniträdgårdsförening</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/logo.png" type="image/png">
 </head>
@@ -21,7 +21,7 @@
       <ul class="nav-links">
         <li><a href="index.html">Hem</a></li>
         <li>
-          <a href="#">Information <span class="arrow">&#9660;</span></a>
+          <a href="#" class="active">Information <span class="arrow">&#9660;</span></a>
           <div class="dropdown">
             <a href="medlemsavgifter.html">Medlemsavgifter</a>
             <a href="ordningsregler.html">Ordningsregler</a>
@@ -38,13 +38,8 @@
     </div>
   </nav>
 
-  <div class="page-content" style="text-align: center; padding-top: 80px; padding-bottom: 120px;">
-    <div style="font-size: 3rem; margin-bottom: 20px;">&#127793;</div>
-    <h1>Tack för din ansökan!</h1>
-    <p style="font-size: 1.1rem; max-width: 500px; margin: 16px auto 32px;">
-      Vi har tagit emot din medlemsansökan och återkommer till dig så snart som möjligt.
-    </p>
-    <a href="index.html" class="btn">Tillbaka till startsidan</a>
+  <div class="page-content">
+    {{stadgar_content}}
   </div>
 
   <footer class="footer">

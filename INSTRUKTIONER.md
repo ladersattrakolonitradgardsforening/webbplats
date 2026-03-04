@@ -67,6 +67,12 @@ Du behöver **inte** kunna programmera eller installera något program.
 2. Redigera texten precis som ett vanligt dokument
 3. Alla rubriker och punktlistor översätts automatiskt till webbplatsen
 
+### Redigera stadgar
+
+1. Gå till **Webbplats** > **Stadgar**
+2. Redigera texten precis som ett vanligt dokument
+3. Använd rubriker (## ) för varje paragraf och vanlig text för innehållet
+
 ### Redigera formulärfält (medlemsansökan)
 
 1. Gå till **Webbplats** > **Formulär**
@@ -114,13 +120,14 @@ När du har gjort dina ändringar i Notion:
 - Kontaktuppgifter (namn, telefon, e-post, adress)
 - Medlemsavgifter (priser, betalningsinformation)
 - Ordningsregler
+- Stadgar
 - Funktionskorten på startsidan (ikon, titel, beskrivning)
 - Formulärfält i medlemsansökan
 
 ### Kan INTE ändras via Notion:
 - Logotypen
 - Färger och design
-- Navigeringsmenyn (Hem, Information, Bli medlem)
+- Navigeringsmenyn (sidlänkarna i menyn)
 - Sidlayout och struktur
 - Facebook-länken i sidfoten
 

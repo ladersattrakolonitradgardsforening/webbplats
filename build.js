@@ -10,6 +10,7 @@ const IDS = {
   kontakt: process.env.NOTION_KONTAKT_ID,
   avgifter: process.env.NOTION_AVGIFTER_ID,
   regler: process.env.NOTION_REGLER_ID,
+  stadgar: process.env.NOTION_STADGAR_ID,
   formular: process.env.NOTION_FORMULAR_ID,
 };
 
@@ -308,7 +309,7 @@ async function build() {
     fs.mkdirSync(PUBLIC, { recursive: true });
     fs.mkdirSync(path.join(PUBLIC, 'assets'), { recursive: true });
 
-    const fallbackFiles = ['index.html', 'medlemsavgifter.html', 'ordningsregler.html', 'bli-medlem.html', 'tack.html'];
+    const fallbackFiles = ['index.html', 'medlemsavgifter.html', 'ordningsregler.html', 'stadgar.html', 'bli-medlem.html', 'tack.html'];
     for (const f of fallbackFiles) {
       const src = path.join(__dirname, f);
       if (fs.existsSync(src)) fs.copyFileSync(src, path.join(PUBLIC, f));
@@ -327,12 +328,13 @@ async function build() {
   fs.mkdirSync(path.join(PUBLIC, 'assets'), { recursive: true });
 
   // Fetch all Notion content
-  const [startsida, features, contact, avgifterHtml, reglerHtml, formFields] = await Promise.all([
+  const [startsida, features, contact, avgifterHtml, reglerHtml, stadgarHtml, formFields] = await Promise.all([
     fetchStartsida(),
     fetchFunktioner(),
     fetchKontakt(),
     fetchPageContent(IDS.avgifter, 'Medlemsavgifter'),
     fetchPageContent(IDS.regler, 'Ordningsregler'),
+    fetchPageContent(IDS.stadgar, 'Stadgar'),
     fetchFormular(),
   ]);
 
@@ -364,6 +366,10 @@ async function build() {
   let reglerPage = fs.readFileSync(path.join(TEMPLATES, 'ordningsregler.html'), 'utf8');
   reglerPage = reglerPage.replace('{{regler_content}}', reglerHtml);
 
+  // Stadgar page
+  let stadgarPage = fs.readFileSync(path.join(TEMPLATES, 'stadgar.html'), 'utf8');
+  stadgarPage = stadgarPage.replace('{{stadgar_content}}', stadgarHtml);
+
   // Bli-medlem page
   let formPage = fs.readFileSync(path.join(TEMPLATES, 'bli-medlem.html'), 'utf8');
   formPage = formPage
@@ -393,6 +399,7 @@ async function build() {
   fs.writeFileSync(path.join(PUBLIC, 'index.html'), indexHtml);
   fs.writeFileSync(path.join(PUBLIC, 'medlemsavgifter.html'), avgifterPage);
   fs.writeFileSync(path.join(PUBLIC, 'ordningsregler.html'), reglerPage);
+  fs.writeFileSync(path.join(PUBLIC, 'stadgar.html'), stadgarPage);
   fs.writeFileSync(path.join(PUBLIC, 'bli-medlem.html'), formPage);
   fs.writeFileSync(path.join(PUBLIC, 'tack.html'), tackHtml);
 

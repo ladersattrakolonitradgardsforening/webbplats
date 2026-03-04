@@ -241,7 +241,31 @@ async function run() {
   ]);
   await delay(400);
 
-  // 6. Formulär database
+  // 6. Stadgar page
+  console.log('Creating Stadgar page...');
+  const stadgarId = await createPage(parentId, 'Stadgar', '📜', [
+    heading1('Stadgar'),
+    paragraph('Föreningens stadgar antagna vid årsmötet', { italic: true }),
+    heading2('§ 1 Föreningens namn och säte'),
+    paragraph('Föreningens namn är Lädersättra Koloniträdgårdsförening. Föreningen har sitt säte i Järfälla kommun, Stockholms län.'),
+    heading2('§ 2 Ändamål'),
+    paragraph('Föreningen har till ändamål att främja odling och trädgårdskultur bland sina medlemmar samt att verka för en god gemenskap och trivsel inom koloniområdet.'),
+    heading2('§ 3 Medlemskap'),
+    paragraph('Medlem i föreningen kan den bli som är folkbokförd i Järfälla kommun eller i Stor-Stockholmsområdet och som förbinder sig att följa föreningens stadgar och ordningsregler. Ansökan om medlemskap görs skriftligen till styrelsen.'),
+    heading2('§ 4 Avgifter'),
+    paragraph('Medlem ska betala den årsavgift som fastställs av årsmötet. Årsavgiften ska betalas senast det datum som styrelsen bestämmer. Medlem som inte betalat avgiften inom föreskriven tid kan uteslutas ur föreningen.'),
+    heading2('§ 5 Styrelse'),
+    paragraph('Föreningens angelägenheter handhas av en styrelse bestående av ordförande, sekreterare, kassör samt minst två övriga ledamöter. Styrelsen väljs av årsmötet för en mandatperiod om ett år.'),
+    heading2('§ 6 Årsmöte'),
+    paragraph('Årsmötet är föreningens högsta beslutande organ. Ordinarie årsmöte hålls årligen före mars månads utgång. Kallelse till årsmöte ska ske skriftligen minst två veckor före mötet.'),
+    heading2('§ 7 Stadgeändring'),
+    paragraph('Ändring av dessa stadgar kräver beslut vid två på varandra följande föreningsmöten, varav ett ska vara ordinarie årsmöte. Minst två tredjedelar av de närvarande röstberättigade medlemmarna måste rösta för ändringen vid båda tillfällena.'),
+    heading2('§ 8 Upplösning'),
+    paragraph('Beslut om föreningens upplösning fattas på samma sätt som stadgeändring. Vid upplösning ska föreningens tillgångar tillfalla ändamål som överensstämmer med föreningens syfte, enligt beslut av det sista årsmötet.'),
+  ]);
+  await delay(400);
+
+  // 7. Formulär database
   console.log('Creating Formulär database...');
   const formularId = await createDatabase(parentId, 'Formulär', '📝', {
     Fältnamn: { title: {} },
@@ -294,6 +318,7 @@ async function run() {
   console.log(`  NOTION_KONTAKT_ID=${kontaktId}`);
   console.log(`  NOTION_AVGIFTER_ID=${avgifterId}`);
   console.log(`  NOTION_REGLER_ID=${reglerId}`);
+  console.log(`  NOTION_STADGAR_ID=${stadgarId}`);
   console.log(`  NOTION_FORMULAR_ID=${formularId}`);
   console.log('');
   console.log('In Vercel: Project Settings > Environment Variables');
